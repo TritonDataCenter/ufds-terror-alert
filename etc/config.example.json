@@ -1,0 +1,34 @@
+{
+	"binder_domain": "binder.coal.joyent.us",
+
+	"ufds_domain": "ufds.coal.joyent.us",
+	"ufds_bind_dn": "cn=root",
+	"ufds_bind_pw": "secret",
+	"ufds_tls_options": {
+		"rejectUnauthorized": false
+	},
+	"ufds_connections": 2,
+	"ufds_key_fp": "SHA256:aaaaaa",
+
+	"sqlite_db": "data/db.sqlite",
+	"ufds_log": "data/ufds_log.json",
+
+	"smtp": {
+		"auth": {
+			"user": "aaaa@gmail.com",
+			"pass": "aaaaa"
+		},
+		"pool": true,
+		"host": "smtp.gmail.com",
+		"port": 465,
+		"secure": true
+	},
+
+	"whitelist": [],
+	"operators": ["alex.wilson@joyent.com"],
+	"my_email": "Joyent Triton Cloud <noreply@joyent.com>",
+	"user_prefix": "[Joyent] ",
+	"oper_prefix": "[JPC-UFDS] ",
+	"cloud_name": "the Triton Public Cloud",
+	"company": "Joyent"
+}

@@ -1,0 +1,15 @@
+Dear operator,
+
+An operator account on <%= cloud_name %> has deleted a public key:
+
+Time of event: <%= when.toISOString() %>
+
+Account UUID: <%= user.uuid %>
+Account login: <%= user.login %>
+Email address: <%= user.email %>
+
+Key name: <%= name %>
+Key comment: <%= key.comment %>
+Key type and size: <%= key.size %> bit <%= key.type %>
+Key fingerprint (MD5): <%= key.fingerprint('md5').toString() %>
+Key fingerprint (SHA256): <%= key.fingerprint().toString() %>

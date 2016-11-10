@@ -1,0 +1,20 @@
+Dear customer,
+
+This is a courtesy email from <%= company %> regarding your account "<%= user.login %>"
+on <%= cloud_name %>.
+
+The SSH public key "<%= name %>" was added to your account at <%= when %>.
+Further details about this key are provided below, for your reference.
+
+If you authorized this change yourself, you may disregard this message. If you
+do not recognize the key or did not authorize this action, please contact
+<%= company %> support immediately.
+
+Thankyou!
+
+
+Key name: <%= name %>
+Key comment: <%= key.comment %>
+Key type and size: <%= key.size %> bit <%= key.type %>
+Key fingerprint (MD5): <%= key.fingerprint('md5').toString() %>
+Key fingerprint (SHA256): <%= key.fingerprint().toString() %>
