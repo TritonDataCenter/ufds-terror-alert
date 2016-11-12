@@ -1,0 +1,30 @@
+<?xml version='1.0'?>
+<!DOCTYPE service_bundle SYSTEM '/usr/share/lib/xml/dtd/service_bundle.dtd.1'>
+<service_bundle type='manifest' name='export'>
+  <service name='application/ufds-terror' type='service' version='0'>
+    <create_default_instance enabled='true'/>
+    <dependency name='network' grouping='require_all' restart_on='error' type='service'>
+      <service_fmri value='svc:/network/physical'/>
+    </dependency>
+    <dependency name='filesystem' grouping='require_all' restart_on='error' type='service'>
+      <service_fmri value='svc:/system/filesystem/local'/>
+    </dependency>
+    <exec_method name='start' type='method' exec='/opt/local/bin/node --abort_on_uncaught_exception server.js &amp;' timeout_seconds='30'>
+      <method_context working_directory='/root/ufds-terror-alert'>
+        <method_credential user='root' group='root' privileges='basic'/>
+        <method_environment>
+          <envvar name='PATH' value='/opt/local/bin:/usr/bin:/usr/sbin:/bin'/>
+          <envvar name='LD_PRELOAD_32' value='/usr/lib/extendedFILE.so.1'/>
+        </method_environment>
+      </method_context>
+    </exec_method>
+    <exec_method name='stop' type='method' exec=':kill' timeout_seconds='30'/>
+    <property_group name='application' type='application'/>
+    <stability value='Unstable'/>
+    <template>
+      <common_name>
+        <loctext xml:lang='C'>ufds terror alert system</loctext>
+      </common_name>
+    </template>
+  </service>
+</service_bundle>
