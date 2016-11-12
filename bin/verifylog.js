@@ -55,7 +55,7 @@ if (opts.help || opts._args.length !== 1 || (!opts.yubikey && !opts.secret)) {
 }
 
 var logFile = opts._args[0];
-var log = mod_fs.createReadStream(logFile);
+var log = mod_fs.createReadStream(logFile, { encoding: 'utf-8' });
 var linest = new mod_byline.LineStream();
 linest.encoding = 'utf-8';
 log.pipe(linest);
