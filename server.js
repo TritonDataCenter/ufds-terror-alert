@@ -40,7 +40,7 @@ try {
 }
 
 var stmt = db.prepare(
-    'select name from sqlite_master where type = ? and name = ?');
+    'select name, sql from sqlite_master where type = ? and name = ?');
 
 mod_vasync.pipeline({
 	funcs: [
@@ -73,6 +73,7 @@ function checkCreateMetadata(_, cb) {
 			return;
 		}
 		if (rows.length < 1) {
+			log.info('initializing database: add table metadata');
 			db.run('create table metadata (' +
 			    'key text primary key, value text)', function () {
 				doInitialSecret(cb);
@@ -84,6 +85,7 @@ function checkCreateMetadata(_, cb) {
 }
 
 function doInitialSecret(cb) {
+	log.info('initializing database: generating root secret');
 	var secret = mod_crypto.randomBytes(20);
 	var challenge = mod_crypto.randomBytes(32);
 	var ins = db.prepare('insert into metadata (key, value) values ' +
@@ -119,10 +121,18 @@ function checkCreateUsers(_, cb) {
 			return;
 		}
 		if (rows.length < 1) {
+			log.info('initializing database: add table users');
 			db.run('create table users (' +
 			    'uuid text primary key, login text, ' +
 			    'userpassword text, email text, ' +
-			    'operator integer)', cb);
+			    'operator integer, reader integer)', cb);
+		} else if (!rows[0].sql.match(/\breader\s*integer\b/)) {
+			log.info('database: upgrading schema for table users');
+			log.warn('you will need to manually set the "reader"' +
+			    ' flag on any read-only operators that already ' +
+			    'exist');
+			db.run('alter table users add column ' +
+			    'reader integer default 0', cb);
 		} else {
 			cb();
 		}
@@ -136,6 +146,7 @@ function checkCreateKeys(_, cb) {
 			return;
 		}
 		if (rows.length < 1) {
+			log.info('initializing database: add table keys');
 			db.run('create table keys (' +
 			    'uuid text, fingerprint text,' +
 			    'name text, comment text, ' +
