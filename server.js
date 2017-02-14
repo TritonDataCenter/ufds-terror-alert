@@ -125,7 +125,8 @@ function checkCreateUsers(_, cb) {
 			db.run('create table users (' +
 			    'uuid text primary key, login text, ' +
 			    'userpassword text, email text, ' +
-			    'operator integer, reader integer)', cb);
+			    'operator integer, reader integer, ' +
+			    'status text)', cb);
 		} else if (!rows[0].sql.match(/\breader\s*integer\b/)) {
 			log.info('database: upgrading schema for table users');
 			log.warn('you will need to manually set the "reader"' +
@@ -133,6 +134,13 @@ function checkCreateUsers(_, cb) {
 			    'exist');
 			db.run('alter table users add column ' +
 			    'reader integer default 0', cb);
+		} else if (!rows[0].sql.match(/\bstatus\s*text\b/)) {
+			log.info('database: upgrading schema for table users');
+			log.warn('you will need to manually set the "status"' +
+			    ' field on any disabled accounts that already ' +
+			    'exist');
+			db.run('alter table users add column ' +
+			    'status text default "active"', cb);
 		} else {
 			cb();
 		}
