@@ -4,7 +4,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  *
- * Copyright (c) 2016, Joyent, Inc.
+ * Copyright (c) 2017, Joyent, Inc.
  */
 
 var mod_fs = require('fs');
@@ -13,6 +13,7 @@ var mod_dashdash = require('dashdash');
 var mod_path = require('path');
 var mod_cproc = require('child_process');
 var mod_crypto = require('crypto');
+var mod_secrets = require('secrets.js');
 
 var options = [
 	{
@@ -23,7 +24,7 @@ var options = [
 	{
 		names: ['secret', 's'],
 		type: 'string',
-		help: 'Supply secret as hex string'
+		help: 'Supply secret as hex string, or comma-separated pieces'
 	},
 	{
 		names: ['help', 'h'],
@@ -62,6 +63,14 @@ log.pipe(linest);
 
 var challenge, secret, psecret, phmac, lineno = 1;
 
+if (opts.secret) {
+	var parts = opts.secret.split(',');
+	if (parts.length > 1) {
+		opts.secret = mod_secrets.combine(parts);
+	}
+	opts.secret = new Buffer(opts.secret, 'hex');
+}
+
 linest.on('readable', readMore);
 linest.on('end', function () {
 	console.error('Log validated ok');
@@ -76,7 +85,7 @@ function readMore() {
 			challenge = new Buffer(obj.challenge, 'hex');
 			if (opts.secret) {
 				var h = mod_crypto.createHmac('sha1',
-				    new Buffer(opts.secret, 'hex'));
+				    opts.secret);
 				h.update(challenge);
 				secret = h.digest();
 			} else if (opts.yubikey) {
