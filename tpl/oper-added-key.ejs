@@ -16,3 +16,10 @@ Key type and size: <%= key.size %> bit <%= key.type %>
 Key fingerprint (MD5): <%= key.fingerprint('md5').toString() %>
 Key fingerprint (SHA256): <%= key.fingerprint().toString() %>
 Key action: add
+
+This key also appears in UFDS in the following user accounts:
+<% otherLocations.forEach(function (loc) { %>
+ * <%= loc.login %> (<%= loc.email %>)
+     Key name: <%= loc.name %>
+     Comment: <%= loc.comment %>
+<% }); %>

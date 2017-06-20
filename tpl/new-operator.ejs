@@ -8,3 +8,9 @@ Account UUID: <%= user.uuid %>
 Account login: <%= user.login %>
 Email address: <%= user.email %>
 
+Current keys attached to this account:
+<% keys.forEach(function (key) { %>
+ * <%= key.fingerprint %>
+     Key name: <%= key.name %>
+     Comment: <%= key.comment %>
+<% }); %>
