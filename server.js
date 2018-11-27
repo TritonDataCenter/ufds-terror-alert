@@ -106,6 +106,13 @@ function checkCreateUsers(_, cb) {
 			    'exist');
 			db.run('alter table users add column ' +
 			    'status text default "active"', cb);
+		} else if (!rows[0].sql.match(/\broleoper\s*integer\b/)) {
+			log.info('database: upgrading schema for table users');
+			log.warn('you will need to manually set the "roleoper"' +
+			    ' flag on any role-operators that already ' +
+			    'exist');
+			db.run('alter table users add column ' +
+			    'roleoper integer default 0', cb);
 		} else {
 			cb();
 		}

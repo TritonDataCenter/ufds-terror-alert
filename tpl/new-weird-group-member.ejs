@@ -1,0 +1,13 @@
+Dear operator,
+
+An unknown DN has been added to the <%= group %> group on <%= cloud_name %>.
+Parsing the DN to ascertain which user was added failed, so it is unlikely that
+this entry is functional.
+
+Time of event: <%= when.toISOString() %>
+
+Group: <%= group %>
+DN added: <%= dn %>
+
+Error during parsing:
+<%= err %>

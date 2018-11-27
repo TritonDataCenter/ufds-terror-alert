@@ -1,0 +1,12 @@
+Dear operator,
+
+An unknown DN has been removed from the <%= group %> group on <%= cloud_name %>.
+Parsing the DN to ascertain which user was removed failed.
+
+Time of event: <%= when.toISOString() %>
+
+Group: <%= group %>
+DN removed: <%= dn %>
+
+Error during parsing:
+<%= err %>

@@ -8,6 +8,7 @@ Account UUID: <%= user.uuid %>
 Account login: <%= user.login %>
 Member of cn=operators: <%= (user.operator === 1) ? 'yes' : 'no' %>
 Member of cn=readers: <%= (user.reader === 1) ? 'yes' : 'no' %>
+Member of cn=role-operators: <%= (user.roleoper === 1) ? 'yes' : 'no' %>
 Email address: <%= user.email %>
 
 Key name: <%= name %>
