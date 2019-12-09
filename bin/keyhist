@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+#
+# Copyright 2019 Joyent, Inc.
+
+# This script is probably a bit fragile, but works in a pinch, which is
+# usually what we need.
+
+if [[ -n "$TRACE" ]]; then
+    export PS4='[\D{%FT%TZ}] ${BASH_SOURCE}:${LINENO}: ${FUNCNAME[0]:+${FUNCNAME[0]}(): }'
+    set -o xtrace
+fi
+
+uuid="$1"
+
+printf "%-7s %-47s %-6s %s\n" 'CHANGE#' "KEY_FP" "TYPE" "CHANGETIME"
+
+grep "fingerprint.*uuid=$uuid" data/ufds_log.json | \
+  # Skip portal metadata, which has nothing to do with key changes.
+  grep -v metadata=portal | \
+  json -ga changenumber changes.fingerprint.0 changetype changetime | \
+  awk '{printf("%-7s %s %-6s %s\n", $1,$2,$3,$4)}'
