@@ -10,7 +10,7 @@
       <service_fmri value='svc:/system/filesystem/local'/>
     </dependency>
     <exec_method name='start' type='method' exec='/opt/local/bin/node --abort_on_uncaught_exception server.js &amp;' timeout_seconds='30'>
-      <method_context working_directory='/root/ufds-terror-alert'>
+      <method_context working_directory='/opt/ufds-terror-alert'>
         <method_credential user='root' group='root' privileges='basic'/>
         <method_environment>
           <envvar name='PATH' value='/opt/local/bin:/usr/bin:/usr/sbin:/bin'/>
