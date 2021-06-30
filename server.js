@@ -91,7 +91,7 @@ function checkCreateUsers(_, cb) {
 			    'uuid text primary key, login text, ' +
 			    'userpassword text, email text, ' +
 			    'operator integer, reader integer, ' +
-			    'status text)', cb);
+			    'status text, roleoper integer)', cb);
 		} else if (!rows[0].sql.match(/\breader\s*integer\b/)) {
 			log.info('database: upgrading schema for table users');
 			log.warn('you will need to manually set the "reader"' +
