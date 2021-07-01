@@ -16,7 +16,7 @@
     "dashdash": "^1.14.0",
     "ejs": "^2.5.2",
     "ldapjs": "^1.0.1",
-    "nodemailer": "^2.6.4",
+    "nodemailer": "^6.6.2",
     "secrets.js": "~0.1.8",
     "sqlite3": "^3.1.8",
     "sshpk": "^1.10.1",
